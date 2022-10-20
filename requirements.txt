@@ -1,11 +1,7 @@
 streamlit 
 requests
 requests-toolbelt
-ast
-io
 requests
-PIL
-json
 pandas
 matplotlib
 seaborn
