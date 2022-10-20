@@ -95,7 +95,7 @@ def main_page():
 
 	st.markdown('''### Parametros del modelo:''')
 
-	img = Image.open('tree-param.JPG')
+	img = Image.open('tree-param.jpg')
 	st.image(img)
 
 	st.markdown('''***''')
