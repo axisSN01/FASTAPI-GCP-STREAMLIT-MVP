@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "debug ui.py",
+            "type": "python",
+            "request": "launch",
+            "module": "streamlit",
+            "console": "integratedTerminal",
+            "args": [
+                "run", "${file}"
+                //"ui.py",
+                //"--server.port",
+                //"8501"
+            ]
+        }
+    ]
+    }

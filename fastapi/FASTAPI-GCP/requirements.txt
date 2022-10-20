@@ -1,0 +1,9 @@
+fastapi
+pandas
+google-cloud
+scikit-learn
+xgboost
+fastapi
+gunicorn
+uvicorn
+httptools
