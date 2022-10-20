@@ -1,7 +1,6 @@
 streamlit 
 requests
 requests-toolbelt
-io
 requests
 PIL
 json
