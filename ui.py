@@ -95,7 +95,7 @@ def main_page():
 
 	st.markdown('''### Parametros del modelo:''')
 
-	img = Image.open('tree-param.jpg')
+	img = Image.open('tree-param.JPG')
 	st.image(img)
 
 	st.markdown('''***''')
@@ -153,13 +153,19 @@ def pageIII():
 	LICENSE = st.selectbox('Ingrese numero de Licencia',df.license_prof.unique())#, default = 16217)
 	NTA = st.selectbox('Ingrese numero de NTA',df.GIS_NTA_NAME.unique())#, default = "Fort Greene")
 	prediccion = 0
+    show_result = st.container()
+    
+    if prediccion:
+        show_result.write("El valor de retrabajo es: " + str(prediccion["rework_predicted"]) + " con un 60% de precision")
+    else:
+        show_result = st.container("Ejecutar predecir Rework para obtener la prediccion")
+    
 	if st.button("Predecir rework"):
 		#NTA_VAL = df_OH.columns.get_loc[NTA]
 		prediccion = process_query(backend, BIN, LICENSE, NTA)
 		prediccion = json.loads(prediccion.text)
 
-	show_result = st.container()
-	show_result.write("El valor de retrabajo es: " + str(prediccion["rework_predicted"]) + " con un 60% de precision")
+
 	st.markdown('***')
 
 #----------------------left navigate bar--------------------------------------
