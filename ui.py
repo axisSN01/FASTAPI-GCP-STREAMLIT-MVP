@@ -152,15 +152,14 @@ def pageIII():
 	BIN = st.selectbox('Ingrese numero de BIN',df.Bin.unique())#, default = 3335229)
 	LICENSE = st.selectbox('Ingrese numero de Licencia',df.license_prof.unique())#, default = 16217)
 	NTA = st.selectbox('Ingrese numero de NTA',df.GIS_NTA_NAME.unique())#, default = "Fort Greene")
-	prediccion = "[Presionar Predecir Rework]"
+	#prediccion = {"rework_predicted":"Presionar Predecir Rework"}
 	show_result = st.container()
 
 	if st.button("Predecir rework"):
 		#NTA_VAL = df_OH.columns.get_loc[NTA]
 		prediccion = process_query(backend, BIN, LICENSE, NTA)
 		prediccion = json.loads(prediccion.text)
-
-	show_result.write("El valor de retrabajo es: " + str(prediccion["rework_predicted"]) + " con un 60% de precision")
+		show_result.write("El valor de retrabajo es: " + str(prediccion["rework_predicted"]) + " con un 60% de precision")
 
 	st.markdown('***')
 
