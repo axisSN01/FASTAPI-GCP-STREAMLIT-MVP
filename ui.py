@@ -160,11 +160,11 @@ def pageIII():
 		prediccion = process_query(backend, BIN, LICENSE, NTA)
 		prediccion = json.loads(prediccion.text)
 		try:
-			if int(prediccion["rework_predicted"]) == 3:
+			if int(prediccion["rework_predicted"].strip("[").strip("]")) == 3:
 				prediccion["rework_predicted"] = "3 o mas veces"
 		except: pass
 
-		show_result.write("El valor de retrabajo es: " + str(prediccion["rework_predicted"]) + " con un 60% de precision")
+		show_result.write("El valor de retrabajo es: " + str(prediccion["rework_predicted"]) + " con un 61% de precision")
 
 	st.markdown('***')
 
