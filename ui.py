@@ -159,6 +159,18 @@ def pageII():
 		#components.html(fig_html, height=alto)
 		st.pyplot(fig)
 
+		ancho = st.sidebar.slider('Chart width', 1,10,10)
+		alto = st.sidebar.slider('Chart heigth', 1,10,10)
+		fig = plt.figure(figsize=(ancho,alto))
+		ax = fig.add_subplot(111, projection='3d')
+		ax.scatter(df.license_prof[500000:600000], df.Bin, df.rework_index_compose, alpha = 0.5, c= df.rework_index_compose)
+		ax.set_xlabel(df.license_prof.name)
+		ax.set_ylabel(df.Bin.name)
+		ax.set_zlabel(df.rework_index_compose.name)
+		#fig_html = mpld3.fig_to_html(fig)
+		#components.html(fig_html, height=alto)
+		st.pyplot(fig)
+
 def pageIII():
 	#Título.
 	#st.title('Predicciones')
