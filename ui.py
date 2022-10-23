@@ -8,7 +8,9 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy as np
+import numpy as np	
+#import mpld3
+#import streamlit.components.v1 as components
 
 #----------------contants and variables definition----------------------------------
 # interact with FastAPI endpoint
@@ -51,39 +53,49 @@ def plot_3d_scatter(x1, x2, y, ax=None, fig = None):
 
 #---------------------UI----------------------------------------------------------------
 # construct UI layout
-st.title("Rework prediction in construction projects NYC (MVP)")
+st.title("Rework prediction in construction projects: NYC case (MVP)")
 
 st.write(
-    """Obtain the predictions of how many times It will necessary to renew permits of construction.
-        This occurs by internal and external reasons """
+    """Obtain the predictions of how many times it will be necessary to renew construction permits.
+        This might occur by internal and external reasons """
 )  # description and instructions
 
 
 def main_page():
 	# Título y subtítulo.
 	#st.title('Introducción a Streamlit')
-	st.markdown('''# Test model''') 
+	st.markdown('''Model overview''') 
 	st.subheader("City of NYC")
 	st.markdown('''***''')
-	st.sidebar.markdown('''
-	* I. Introducción 
-	* II. Visualizaciones
-	* III. Pruebas API''')
-
+	#st.sidebar.markdown('''
+#	Drop down menu:
+#
+#		* I. Intro 
+#
+#		* II. Chart views 
+#
+#		* III. API test''')
+#
 	st.markdown(
         '''
-        ### ¿Cual es la hipotesis base?
-        Se intenta predecir la cantidad de retrabajo en las obras civiles.
+        ### What is the hypotesis?
+        An attempt is made to predict the amount of rework in civil works.
 
-        ### ¿Que caracteristicas tiene el modelo?
-        Los resultados dependen fuertemente de 2 caracteristicas: 
-        + Numero unico de edificio (BIN)
-		+ Nombre unico de vecindario (NTA)
-        + Numero de licencia del contratista (Constructor)
+        ### What are the characteristics of the model?
+        The results depend strongly on 3 features: 
+        + Building Unique Number (BIN)
+        + Neighborhood Unique Name (NTA)
+        + Contractor's license number (Builder)
         ''')
 
 	st.markdown('''
-    	### Captura del arbol del modelo (hasta el 2do nivel)''')
+    	### types of permits NYC DOB NOW:''')
+
+	img = Image.open('Permits.PNG')
+	st.image(img)
+
+	st.markdown('''
+    	### Decision tree Screenshot (just up to the 2nd level)''')
 
 	img = Image.open('arbol-2level.JPG')
 	st.image(img)
@@ -93,7 +105,7 @@ def main_page():
 	img = Image.open('FEATURE_IMPORTANCE.png')
 	st.image(img)
 
-	st.markdown('''### Parametros del modelo:''')
+	st.markdown('''### Model parameters:''')
 
 	img = Image.open('tree-param.jpg')
 	st.image(img)
@@ -103,45 +115,48 @@ def main_page():
 
 def pageII():
 	#Título.
-	st.title('Visualizaciones')
+	st.title('Chart views')
 	st.markdown('***')
 	#Subtítulo.
-	st.subheader('Exploración inicial del dataset')
+	st.subheader('Initial exploratory data analysis')
 
 	#Uso de Checkboxs: Muestra información cuando se selecciona la caja.
-	if st.checkbox('Mostrar DF'): #Nombre al lado de la caja.
+	if st.checkbox('Show DF'): #Nombre al lado de la caja.
 		st.dataframe(df) #Qué hace cuando se selecciona la caja.
 
-	if st.checkbox('Vista de datos'):#, disabled=True
+	if st.checkbox('Data view'):#, disabled=True
 		#Botones: Muestra información cuando se selecciona el botón.
-		if st.button("Mostrar head"): #Nombre del botón.
+		if st.button("Show head"): #Nombre del botón.
 			st.write(df.head()) #Qué hace cuando se selecciona el botón.
-		if st.button("Mostrar tail"):
+		if st.button("Show tail"):
 			st.write(df.tail())
 
-	st.subheader("Información de las dimensiones")
+	st.subheader("Dimensions:")
 	#Radios: 
-	df_dim = st.radio('Dimensión a mostrar:', ('Filas', 'Columnas', 'Ambas'), horizontal=True)
+	df_dim = st.radio('Dimensions to show:', ('rows', 'Cols', 'both'), horizontal=True)
 
-	if df_dim == 'Filas':
-		st.write('Cantidad de filas:', df.shape[0])
+	if df_dim == 'rows':
+		st.write('rows count:', df.shape[0])
 
-	elif df_dim == 'Columnas':
-		st.write('Cantidad de columnas:', df.shape[1])
-		st.write('Columnas: ',df.columns)
+	elif df_dim == 'cols':
+		st.write('cols count:', df.shape[1])
+		st.write('Cols: ',df.columns)
 	else:
-		st.write('Cantidad de filas:', df.shape[0])
-		st.write('Cantidad de columnas:', df.shape[1]) 
+		st.write('rows count:', df.shape[0])
+		st.write('cols count:', df.shape[1]) 
 		st.markdown('***')
-	if(st.checkbox('Gráfico de dispersión entre features', True) == True):
-		ancho = st.sidebar.slider('Ancho del gráfico', 1,10,6)
-		alto = st.sidebar.slider('Alto del gráfico', 1,10,4)
+	if(st.checkbox('Scatter plot between features:', True) == True):
+
+		ancho = st.sidebar.slider('Chart width', 1,10,6)
+		alto = st.sidebar.slider('Chart heigth', 1,10,4)
 		fig = plt.figure(figsize=(ancho,alto))
 		ax = fig.add_subplot(111, projection='3d')
 		ax.scatter(df.license_prof, df.Bin, df.rework_index_compose, alpha = 0.5, c= df.rework_index_compose)
 		ax.set_xlabel(df.license_prof.name)
 		ax.set_ylabel(df.Bin.name)
 		ax.set_zlabel(df.rework_index_compose.name)
+		#fig_html = mpld3.fig_to_html(fig)
+		#components.html(fig_html, height=alto)
 		st.pyplot(fig)
 
 def pageIII():
@@ -149,38 +164,38 @@ def pageIII():
 	#st.title('Predicciones')
 	#st.markdown('***')
 	#st.subheader('Ingreso los datos para obtener la prediccion del modelo')
-	BIN = st.selectbox('Ingrese numero de BIN',df.Bin.unique())#, default = 3335229)
-	LICENSE = st.selectbox('Ingrese numero de Licencia',df.license_prof.unique())#, default = 16217)
-	NTA = st.selectbox('Ingrese numero de NTA',df.GIS_NTA_NAME.unique())#, default = "Fort Greene")
+	BIN = st.selectbox('Enter the BIN number',df.Bin.unique())#, default = 3335229)
+	LICENSE = st.selectbox('Enter the license number',df.license_prof.unique())#, default = 16217)
+	NTA = st.selectbox('Enter the NTA name',df.GIS_NTA_NAME.unique())#, default = "Fort Greene")
 	#prediccion = {"rework_predicted":"Presionar Predecir Rework"}
 	show_result = st.container()
 
-	if st.button("Predecir rework"):
+	if st.button("Predict rework"):
 		#NTA_VAL = df_OH.columns.get_loc[NTA]
 		prediccion = process_query(backend, BIN, LICENSE, NTA)
 		prediccion = json.loads(prediccion.text)
 		try:
 			if int(prediccion["rework_predicted"].strip("[").strip("]")) == 3:
-				prediccion["rework_predicted"] = "3 o mas veces"
+				prediccion["rework_predicted"] = "3 o more times"
 		except: pass
 
-		show_result.write("El valor de retrabajo es: " + str(prediccion["rework_predicted"]) + " con un 61% de precision")
+		show_result.write("the rework value will be: " + str(prediccion["rework_predicted"]) + " with 61% of accuracy")
 
 	st.markdown('***')
 
 #----------------------left navigate bar--------------------------------------
 
 page_names_to_funcs = {
-    'I. Introducción': main_page,
-    'II. Visualizaciones': pageII,
-    'III. Pruebas API': pageIII }
+    'I. Intro': main_page,
+    'II. Chart views': pageII,
+    'III. API test': pageIII }
 
-selected_page = st.sidebar.selectbox("Seleccione página", page_names_to_funcs.keys())
+selected_page = st.sidebar.selectbox("Select the page", page_names_to_funcs.keys())
 page_names_to_funcs[selected_page]()
 
 
 ##-----------------Footer--------------------------------------------------------------
-st.write('## Material complementario')
-st.markdown('''	* [API del modelo](https://fastapi.io)
-* [Documentación oficial NYC DOB](https://data.cityofnewyork.us/)
-* [Blog oficial Streamlit](https://blog.streamlit.io/)''')
+st.write('## References')
+st.markdown('''	* [API model](https://fastapi-mvp-app-dzvcjejuga-uc.a.run.app/)
+* [NYC DOB official](https://data.cityofnewyork.us/Housing-Development/DOB-NOW-Build-Approved-Permits/rbx6-tga4)
+* [Streamlit blog](https://blog.streamlit.io/)''')
