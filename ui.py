@@ -147,10 +147,10 @@ def pageII():
 		st.markdown('***')
 	if(st.checkbox('Scatter plot between features:', True) == True):
 
-		ancho = st.sidebar.slider('Chart width', 1,10,6)
-		alto = st.sidebar.slider('Chart heigth', 1,10,4)
+		ancho = st.sidebar.slider('Chart width', 1,10,3)
+		alto = st.sidebar.slider('Chart heigth', 1,10,3)
 		fig = plt.figure(figsize=(ancho,alto))
-		ax = fig.add_subplot(111, projection='3d')
+		ax = fig.add_subplot(projection='3d')
 		ax.scatter(df.license_prof, df.Bin, df.rework_index_compose, alpha = 0.5, c= df.rework_index_compose)
 		ax.set_xlabel(df.license_prof.name)
 		ax.set_ylabel(df.Bin.name)
