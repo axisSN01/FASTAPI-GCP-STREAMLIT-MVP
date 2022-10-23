@@ -196,6 +196,6 @@ page_names_to_funcs[selected_page]()
 
 ##-----------------Footer--------------------------------------------------------------
 st.write('## References')
-st.markdown('''	* [API model](https://fastapi-mvp-app-dzvcjejuga-uc.a.run.app/)
+st.markdown('''	* [API model](https://fastapi-mvp-app-dzvcjejuga-uc.a.run.app/docs/)
 * [NYC DOB official](https://data.cityofnewyork.us/Housing-Development/DOB-NOW-Build-Approved-Permits/rbx6-tga4)
 * [Streamlit blog](https://blog.streamlit.io/)''')
